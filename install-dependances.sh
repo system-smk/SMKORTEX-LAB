@@ -7,6 +7,10 @@ echo -e "\n🎛️ Choisissez votre ambiance :"
 echo "1. Classique ➤ sans effet visuel"
 echo "2. Mixte ➤ cmatrix + verbosité en split terminal"
 read -p "👉 Votre choix [1/2] : " USER_CHOICE
+# 🎛️ Ambiance visuelle ➤ lancement synchrone
+if [[ -f "scripts/ambienceur.sh" ]]; then
+  bash "scripts/ambienceur.sh"
+fi
 
 # 📁 Sauvegarde du choix
 mkdir -p config logs
