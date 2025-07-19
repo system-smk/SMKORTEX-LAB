@@ -36,6 +36,6 @@ fi
 echo "🎬 Ambiance visuelle activée ➤ affichage cmatrix + flux cognitif SMKORTEX"
 
 tmux new-session -d -s kortex "cmatrix -u 2"
-tmux split-window -v -p 50 -t kortex "echo -e '\n📖 Verbosité SMKORTEX :'; tail -f \"$LOGFILE\""
+tmux split-window -v -p 50 -t kortex "tail -f \"$LOGFILE\""
 tmux select-pane -t kortex:0
 tmux attach-session -t kortex
