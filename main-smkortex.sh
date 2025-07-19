@@ -100,4 +100,3 @@ case "$CH" in
     exit 1
     ;;
 esac
-
