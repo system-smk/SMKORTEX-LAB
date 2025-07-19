@@ -8,14 +8,5 @@ read -p "👉 Votre choix [1/2] : " USER_CHOICE
 mkdir -p config
 echo "$USER_CHOICE" > config/ambiance.txt
 
-if [[ "$USER_CHOICE" == "2" ]]; then
-  bash "scripts/ambienceur.sh"
-else
-  bash "scripts/install-core.sh"
-fi
+bash "scripts/ambienceur.sh"
 
-    echo "✅ tmux est déjà installé"
-  fi
-fi
-
-echo -e "\n✅ Dépendances installées et ambiance définie 💎"
