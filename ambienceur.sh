@@ -1,23 +1,13 @@
 #!/bin/bash
 # 🌈 ambienceur.sh : active le style terminal selon le choix utilisateur
 
-
 ROOTDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-tmux new-session -d -s kortex "cmatrix -u 2"
-tmux split-window -v -p 50 -t kortex "bash $ROOTDIR/scripts/install-core.sh"
-tmux select-pane -t kortex:0
-tmux attach-session -t kortex
-
 LOGDIR="$ROOTDIR/logs"
 LOGFILE="$LOGDIR/session_$(date +"%H-%M_%d-%m-%Y").log"
 
 # 📥 Lecture du choix utilisateur
 AMBIANCE="1"
 [[ -f "$ROOTDIR/config/ambiance.txt" ]] && AMBIANCE=$(cat "$ROOTDIR/config/ambiance.txt")
-
-# 📁 Préparation des logs
-mkdir -p "$LOGDIR"
-touch "$LOGFILE"
 
 # 🧘 Ambiance classique ➤ pas d'effet visuel
 if [[ "$AMBIANCE" == "1" ]]; then
@@ -38,10 +28,14 @@ if [[ "$TERM_HEIGHT" -lt "$MIN_HEIGHT" ]]; then
   exit 0
 fi
 
-# 🎛️ Ambiance mixte ➤ tmux + split cmatrix / verbose
-echo "🎬 Ambiance visuelle activée ➤ affichage cmatrix + flux cognitif SMKORTEX"
+# 📁 Préparation des logs
+mkdir -p "$LOGDIR"
+touch "$LOGFILE"
+
+# 🎛️ Ambiance mixte ➤ tmux + split cmatrix / install-core.sh
+echo "🎬 Ambiance visuelle activée ➤ cmatrix + installation active"
 
 tmux new-session -d -s kortex "cmatrix -u 2"
-tmux split-window -v -p 50 -t kortex "tail -f \"$LOGFILE\""
+tmux split-window -v -p 50 -t kortex "bash \"$ROOTDIR/scripts/install-core.sh\" | tee -a \"$LOGFILE\""
 tmux select-pane -t kortex:0
 tmux attach-session -t kortex
