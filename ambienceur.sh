@@ -13,6 +13,7 @@ fi
 # 🌪️ Mode visuel ➤ cmatrix en premier plan (non bloquant)
 echo "🌈 Ambiance visuelle ➤ cmatrix lancé en parallèle"
 cmatrix -u 2 &
+echo $! > "$ROOTDIR/config/cmatrix.pid"
 sleep 0.5  # petit décalage pour laisser cmatrix démarrer
 
 # 💡 Lancement installation classique
