@@ -29,3 +29,8 @@ mkdir -p config
 echo "$USER_CHOICE" > config/ambiance.txt
 
 echo -e "\n✅ Dépendances installées et ambiance définie 💚"
+# 🧠 Lancement immédiat de l’ambiance choisie (si activée)
+if [[ -f "$(dirname "$0")/ambienceur.sh" ]]; then
+  bash "$(dirname "$0")/ambienceur.sh"
+fi
+
