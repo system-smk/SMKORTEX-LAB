@@ -1,43 +1,44 @@
 #!/bin/bash
 
-echo -e "\n📦 Installation des dépendances pour SMKortex..."
+echo -e "\n📦 Installation des dépendances pour SMKORTEX..."
 
-### Choix d'ambiance terminal
+# 🎛️ Choix de l’ambiance
 echo -e "\n🎛️ Choisissez votre ambiance :"
-echo "1. Classique ➤ progression visible"
-echo "2. Animation ➤ cmatrix uniquement"
-echo "3. Mixte ➤ cmatrix + logs via tmux"
-read -p "👉 Votre choix [1/2/3] : " USER_CHOICE
+echo "1. Classique ➤ sans effet visuel"
+echo "2. Mixte ➤ cmatrix + logs en split terminal"
+read -p "👉 Votre choix [1/2] : " USER_CHOICE
 
+# 📁 Sauvegarde du choix
 mkdir -p config
 echo "$USER_CHOICE" > config/ambiance.txt
 
-# 🎞️ Lancement immédiat de l'ambiance visuelle
-if [[ -f "scripts/ambienceur.sh" ]]; then
-  bash "scripts/ambienceur.sh"
-fi
-
-
+# 🔄 Installation des paquets de base
 echo -e "\n🔄 Mise à jour et installation des packages..."
 sudo apt update
 sudo apt install -y git cmake g++ wget build-essential libcurl4-openssl-dev ccache
 
-[[ "$USER_CHOICE" == "2" || "$USER_CHOICE" == "3" ]] && sudo apt install -y cmatrix
+# 🎞️ Installation cmatrix si ambiance visuelle choisie
+[[ "$USER_CHOICE" == "2" ]] && sudo apt install -y cmatrix
 
-if [[ "$USER_CHOICE" == "3" ]]; then
+# 🎛️ Vérification et installation de tmux si ambiance mixte
+if [[ "$USER_CHOICE" == "2" ]]; then
   if ! command -v tmux &> /dev/null; then
     read -p "👉 Installer tmux pour activer le mode mixte ? [o/N] : " INSTALL_TMUX
-    [[ "$INSTALL_TMUX" =~ ^[oO]$ ]] && sudo apt install -y tmux || USER_CHOICE="1"
+    if [[ "$INSTALL_TMUX" =~ ^[oO]$ ]]; then
+      sudo apt install -y tmux
+    else
+      echo "❌ Mode mixte annulé ➤ ambiance classique activée"
+      USER_CHOICE="1"
+      echo "$USER_CHOICE" > config/ambiance.txt
+    fi
   else
     echo "✅ tmux est déjà installé"
   fi
 fi
 
-### Sauvegarde du choix d’ambiance pour les autres scripts
-mkdir -p config
-echo "$USER_CHOICE" > config/ambiance.txt
+# 🌈 Lancement immédiat de l’ambiance visuelle si disponible
+if [[ -f "$(dirname "$0")/ambienceur.sh" ]]; then
+  bash "$(dirname "$0")/ambienceur.sh"
+fi
 
-echo -e "\n✅ Dépendances installées et ambiance définie 💚"
-# 🧠 Lancement immédiat de l’ambiance choisie (si activée)
-
-
+echo -e "\n✅ Dépendances installées et ambiance définie 💎"
