@@ -9,6 +9,15 @@ echo "2. Animation ➤ cmatrix uniquement"
 echo "3. Mixte ➤ cmatrix + logs via tmux"
 read -p "👉 Votre choix [1/2/3] : " USER_CHOICE
 
+mkdir -p config
+echo "$USER_CHOICE" > config/ambiance.txt
+
+# 🎞️ Lancement immédiat de l'ambiance visuelle
+if [[ -f "scripts/ambienceur.sh" ]]; then
+  bash "scripts/ambienceur.sh"
+fi
+
+
 echo -e "\n🔄 Mise à jour et installation des packages..."
 sudo apt update
 sudo apt install -y git cmake g++ wget build-essential libcurl4-openssl-dev ccache
