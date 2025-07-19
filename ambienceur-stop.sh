@@ -2,8 +2,13 @@
 # === 🔧 ambienceur-stop.sh : arrête les effets visuels
 
 ROOTDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+PIDFILE="$ROOTDIR/config/cmatrix.pid"
 
-if [[ -f "$ROOTDIR/config/cmatrix.pid" ]]; then
-  kill "$(cat "$ROOTDIR/config/cmatrix.pid")" 2>/dev/null
-  rm "$ROOTDIR/config/cmatrix.pid"
+if [[ -f "$PIDFILE" ]]; then
+  kill "$(cat "$PIDFILE")" 2>/dev/null
+  rm "$PIDFILE"
+  echo "🛑 cmatrix arrêté avec succès"
+else
+  echo "ℹ️ Aucun processus cmatrix à arrêter"
 fi
+
