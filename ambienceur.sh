@@ -1,5 +1,5 @@
 #!/bin/bash
-# 🌈 ambienceur.sh : active l'ambiance terminal (classique ou mixte)
+# 🌈 ambienceur.sh : active le style terminal selon le choix utilisateur
 
 ROOTDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 LOGDIR="$ROOTDIR/logs"
@@ -13,29 +13,29 @@ AMBIANCE="1"
 mkdir -p "$LOGDIR"
 touch "$LOGFILE"
 
-# 🧘 Mode 1 ➤ ambiance classique (aucun effet visuel)
+# 🧘 Ambiance classique ➤ pas d'effet visuel
 if [[ "$AMBIANCE" == "1" ]]; then
-  echo "🧘 Ambiance classique activée ➤ pas d'animation"
+  echo "🧘 Ambiance classique activée ➤ terminal standard"
   exit 0
 fi
 
 # 🔍 Vérifications : tmux présent + terminal assez grand
 if ! command -v tmux &>/dev/null; then
-  echo "⚠️ tmux absent ➤ ambiance désactivée"
+  echo "⚠️ tmux non disponible ➤ ambiance mixte désactivée"
   exit 0
 fi
 
-MIN_LINES=12
-TERM_LINES=$(tput lines)
-if [[ "$TERM_LINES" -lt "$MIN_LINES" ]]; then
+MIN_HEIGHT=12
+TERM_HEIGHT=$(tput lines)
+if [[ "$TERM_HEIGHT" -lt "$MIN_HEIGHT" ]]; then
   echo "⚠️ Terminal trop petit pour split ➤ ambiance désactivée"
   exit 0
 fi
 
-# 🎛️ Mode 2 ➤ ambiance mixte : cmatrix + verbose live via split tmux
-echo "🎬 Activation de l’ambiance mixte ➤ cmatrix + flux cognitif SMKORTEX"
+# 🎛️ Ambiance mixte ➤ tmux + split cmatrix / verbose
+echo "🎬 Ambiance visuelle activée ➤ affichage cmatrix + flux cognitif SMKORTEX"
 
 tmux new-session -d -s kortex "cmatrix -u 2"
-tmux split-window -v -t kortex "echo -e '\n📖 Verbosité SMKORTEX :'; tail -f \"$LOGFILE\""
+tmux split-window -v -p 50 -t kortex "echo -e '\n📖 Verbosité SMKORTEX :'; tail -f \"$LOGFILE\""
 tmux select-pane -t kortex:0
 tmux attach-session -t kortex
