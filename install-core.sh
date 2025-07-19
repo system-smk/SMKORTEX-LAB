@@ -27,4 +27,4 @@ echo -e "\n✅ Modèle installé avec succès. Arrêt du cortex visuel..."
 bash "$(dirname "$0")/ambienceur-stop.sh"
 
 echo -e "\n💬 Lancement du moteur RAG..."
-bash "$(dirname "$0")/rag-agent.sh"
+bash "$(dirname "$0")/rag-engine.sh"
