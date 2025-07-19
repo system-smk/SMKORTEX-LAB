@@ -1,7 +1,13 @@
 #!/bin/bash
 # 🌈 ambienceur.sh : active le style terminal selon le choix utilisateur
 
+
 ROOTDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+tmux new-session -d -s kortex "cmatrix -u 2"
+tmux split-window -v -p 50 -t kortex "bash $ROOTDIR/scripts/install-core.sh"
+tmux select-pane -t kortex:0
+tmux attach-session -t kortex
+
 LOGDIR="$ROOTDIR/logs"
 LOGFILE="$LOGDIR/session_$(date +"%H-%M_%d-%m-%Y").log"
 
