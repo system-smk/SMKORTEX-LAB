@@ -1,0 +1,3 @@
+/home/x/Bureau/KORTEX/SMKORTEXPLUS/build/CMakeFiles/kortex_terminal.dir
+/home/x/Bureau/KORTEX/SMKORTEXPLUS/build/CMakeFiles/edit_cache.dir
+/home/x/Bureau/KORTEX/SMKORTEXPLUS/build/CMakeFiles/rebuild_cache.dir
