@@ -20,7 +20,12 @@ if [ -f build/module_installer ]; then
     echo ""
     echo "🚀 Lancement du module_installer pour cloner llama.cpp et télécharger Vigogne..."
     ./build/module_installer
-
+    
+    echo "📁 Préparation et compilation de llama.cpp..."
+    cd repos/llama.cpp
+    mkdir -p build && cd build
+    cmake .. && make -j$(nproc)
+    
     echo ""
     echo "🧩 Installation IA terminée. Le cortex SMKORTEX est connecté."
 else
