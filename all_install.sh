@@ -1,11 +1,13 @@
 #!/bin/bash
 
+mkdir -p build
+
 g++ src/anime.cpp -o build/logo
 ./build/logo &
 echo "🧠 [SMKORTEX] Installation de base et compilation du module IA"
 
 # 📁 Création du dossier build
-mkdir -p build
+
 
 # 📦 Compilation du module_installer.cpp
 echo "🔧 Compilation de src/module_installer.cpp..."
