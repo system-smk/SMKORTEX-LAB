@@ -4,9 +4,9 @@
 #include <thread>
 #include <sys/ioctl.h>
 #include <unistd.h>
-#include <algorithm> // Pour std::max
+#include <algorithm> // pour std::max
 
-// 📐 Récupérer les dimensions actuelles du terminal
+// 📐 Obtenir les dimensions du terminal
 int obtenirLargeurTerminal() {
     struct winsize taille;
     ioctl(STDOUT_FILENO, TIOCGWINSZ, &taille);
@@ -21,16 +21,16 @@ int obtenirHauteurTerminal() {
 
 // 🧼 Effacer le terminal
 void nettoyerTerminal() {
-    std::cout << "\033[2J\033[H"; // ANSI : efface tout + remet le curseur en haut
+    std::cout << "\033[2J\033[H"; // Code ANSI : clear + curseur au coin
 }
 
-// 🔁 Dessiner le tunnel selon le temps
+// 🔁 Dessiner le tunnel concentrique
 void dessinerTunnel(float temps, int largeur, int hauteur) {
     nettoyerTerminal();
     for (int y = 0; y < hauteur; ++y) {
         for (int x = 0; x < largeur; ++x) {
-            float dx = x - largeur / 2;
-            float dy = y - hauteur / 2;
+            float dx = x - largeur / 2.0f;
+            float dy = y - hauteur / 2.0f;
             float distance = std::sqrt(dx * dx + dy * dy);
             float onde = std::sin(distance * 0.15f - temps);
 
@@ -46,7 +46,7 @@ void dessinerTunnel(float temps, int largeur, int hauteur) {
     }
 }
 
-// ✨ Affichage du splash centré, sans bordures
+// 🧠 Affichage final centré
 void afficherSplash() {
     nettoyerTerminal();
     int largeur = obtenirLargeurTerminal();
@@ -58,7 +58,7 @@ void afficherSplash() {
     std::cout << std::string(espacement, ' ') << message << "\n\n";
 }
 
-// 🚀 Point d’entrée principal
+// 🚀 Programme principal
 int main() {
     int largeur = obtenirLargeurTerminal();
     int hauteur = obtenirHauteurTerminal();
