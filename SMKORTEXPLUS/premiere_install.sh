@@ -25,6 +25,7 @@ mkdir -p build
 cd build
 cmake .. >> "../$LOG" 2>&1
 make >> "../$LOG" 2>&1
+chmod +x build/kortex_terminal
 cd ..
 
 # 🧪 Vérification et lancement
