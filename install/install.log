@@ -1,0 +1,15 @@
+🧠 Lancement installation complète — jeu. 24 juil. 2025 10:57:16 CEST
+✅ build-essential déjà installé.
+✅ cmake déjà installé.
+✅ curl déjà installé.
+✅ git déjà installé.
+✅ libboost-all-dev déjà installé.
+✅ libprotobuf-dev déjà installé.
+✅ libsentencepiece-dev déjà installé.
+🛠️ Installation de nlohmann-json-dev via jsonlib_install.sh...
+╔═══════════════════════════════════════════════╗
+║ 📊 SMKORTEX — Installation de la JSON Library ║
+╚═══════════════════════════════════════════════╝
+✅ La bibliothèque JSON est déjà installée.
+🎯 Fin du script jsonlib_install.sh
+✅ nlohmann-json-dev installé avec succès.
