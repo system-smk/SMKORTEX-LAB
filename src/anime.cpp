@@ -2,29 +2,42 @@
 #include <cmath>
 #include <chrono>
 #include <thread>
+#include <sys/ioctl.h>
+#include <unistd.h>
 
-const int width  = 80;
-const int height = 24;
-const int frames = 60; // durée de l'animation
-
-void clearTerminal() {
-    std::cout << "\x1b[2J\x1b[H"; // ANSI: clear + reset curseur
+// 📐 Récupérer la taille du terminal
+int obtenirLargeurTerminal() {
+    struct winsize taille;
+    ioctl(STDOUT_FILENO, TIOCGWINSZ, &taille);
+    return taille.ws_col;
 }
 
-void drawTunnel(float t) {
-    clearTerminal();
-    for (int y = 0; y < height; ++y) {
-        for (int x = 0; x < width; ++x) {
-            float dx = x - width / 2;
-            float dy = y - height / 2;
+int obtenirHauteurTerminal() {
+    struct winsize taille;
+    ioctl(STDOUT_FILENO, TIOCGWINSZ, &taille);
+    return taille.ws_row;
+}
+
+// 🔄 Nettoyer le terminal
+void nettoyerTerminal() {
+    std::cout << "\033[2J\033[H";
+}
+
+// 🔁 Dessiner le tunnel
+void dessinerTunnel(float temps, int largeur, int hauteur) {
+    nettoyerTerminal();
+    for (int y = 0; y < hauteur; ++y) {
+        for (int x = 0; x < largeur; ++x) {
+            float dx = x - largeur / 2;
+            float dy = y - hauteur / 2;
             float dist = std::sqrt(dx * dx + dy * dy);
 
-            float wave = std::sin(dist * 0.15 - t);
+            float onde = std::sin(dist * 0.15 - temps);
             char pixel = ' ';
-            if (wave > 0.85)       pixel = '@';
-            else if (wave > 0.65)  pixel = '#';
-            else if (wave > 0.4)   pixel = '+';
-            else if (wave > 0.2)   pixel = '.';
+            if (onde > 0.85)      pixel = '@';
+            else if (onde > 0.65) pixel = '#';
+            else if (onde > 0.4)  pixel = '+';
+            else if (onde > 0.2)  pixel = '.';
 
             std::cout << pixel;
         }
@@ -32,24 +45,30 @@ void drawTunnel(float t) {
     }
 }
 
-void splashMessage() {
-    clearTerminal();
+// ✨ Affichage du message final
+void afficherSplash() {
+    nettoyerTerminal();
     std::cout << "\n\n";
     std::cout << "╔══════════════════════════════════════════╗\n";
-    std::cout << "              SMKORTEX SYSTEM         \n";
+    std::cout << "         ⚡ SYSTÈME SMKORTEX ACTIF ⚡       \n";
     std::cout << "╚══════════════════════════════════════════╝\n";
     std::cout << "\n";
 }
 
+// 🧠 Entrée principale
 int main() {
+    int largeur = obtenirLargeurTerminal();
+    int hauteur = obtenirHauteurTerminal();
+    const int nombreFrames = 60;
     float t = 0.0f;
-    for (int i = 0; i < frames; ++i) {
-        drawTunnel(t);
+
+    for (int i = 0; i < nombreFrames; ++i) {
+        dessinerTunnel(t, largeur, hauteur);
         t += 0.15f;
         std::this_thread::sleep_for(std::chrono::milliseconds(50));
     }
 
-    splashMessage();
+    afficherSplash();
     std::this_thread::sleep_for(std::chrono::seconds(2));
     return 0;
 }
