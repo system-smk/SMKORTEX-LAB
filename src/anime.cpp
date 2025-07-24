@@ -4,8 +4,9 @@
 #include <thread>
 #include <sys/ioctl.h>
 #include <unistd.h>
+#include <algorithm> // Pour std::max
 
-// 📐 Récupérer la taille du terminal
+// 📐 Récupérer les dimensions actuelles du terminal
 int obtenirLargeurTerminal() {
     struct winsize taille;
     ioctl(STDOUT_FILENO, TIOCGWINSZ, &taille);
@@ -18,26 +19,26 @@ int obtenirHauteurTerminal() {
     return taille.ws_row;
 }
 
-// 🔄 Nettoyer le terminal
+// 🧼 Effacer le terminal
 void nettoyerTerminal() {
-    std::cout << "\033[2J\033[H";
+    std::cout << "\033[2J\033[H"; // ANSI : efface tout + remet le curseur en haut
 }
 
-// 🔁 Dessiner le tunnel
+// 🔁 Dessiner le tunnel selon le temps
 void dessinerTunnel(float temps, int largeur, int hauteur) {
     nettoyerTerminal();
     for (int y = 0; y < hauteur; ++y) {
         for (int x = 0; x < largeur; ++x) {
             float dx = x - largeur / 2;
             float dy = y - hauteur / 2;
-            float dist = std::sqrt(dx * dx + dy * dy);
+            float distance = std::sqrt(dx * dx + dy * dy);
+            float onde = std::sin(distance * 0.15f - temps);
 
-            float onde = std::sin(dist * 0.15 - temps);
             char pixel = ' ';
-            if (onde > 0.85)      pixel = '@';
-            else if (onde > 0.65) pixel = '#';
-            else if (onde > 0.4)  pixel = '+';
-            else if (onde > 0.2)  pixel = '.';
+            if (onde > 0.85f)       pixel = '@';
+            else if (onde > 0.65f)  pixel = '#';
+            else if (onde > 0.4f)   pixel = '+';
+            else if (onde > 0.2f)   pixel = '.';
 
             std::cout << pixel;
         }
@@ -45,17 +46,19 @@ void dessinerTunnel(float temps, int largeur, int hauteur) {
     }
 }
 
-// ✨ Affichage du message final
+// ✨ Affichage du splash centré, sans bordures
 void afficherSplash() {
     nettoyerTerminal();
+    int largeur = obtenirLargeurTerminal();
+
+    std::string message = "⚡ SYSTÈME SMKORTEX ACTIF ⚡";
+
+    int espacement = std::max(0, (largeur - static_cast<int>(message.size())) / 2);
     std::cout << "\n\n";
-    std::cout << "╔══════════════════════════════════════════╗\n";
-    std::cout << "         ⚡ SYSTÈME SMKORTEX ACTIF ⚡       \n";
-    std::cout << "╚══════════════════════════════════════════╝\n";
-    std::cout << "\n";
+    std::cout << std::string(espacement, ' ') << message << "\n\n";
 }
 
-// 🧠 Entrée principale
+// 🚀 Point d’entrée principal
 int main() {
     int largeur = obtenirLargeurTerminal();
     int hauteur = obtenirHauteurTerminal();
