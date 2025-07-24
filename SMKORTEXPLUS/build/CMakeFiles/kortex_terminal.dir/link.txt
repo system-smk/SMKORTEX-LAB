@@ -1,1 +1,0 @@
-/usr/bin/c++ CMakeFiles/kortex_terminal.dir/src/main.cpp.o CMakeFiles/kortex_terminal.dir/src/menu.cpp.o -o kortex_terminal 
