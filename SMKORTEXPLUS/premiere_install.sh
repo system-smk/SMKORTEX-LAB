@@ -8,25 +8,27 @@ LAUNCHER="kortexecute.sh"
 
 # 🗂️ Préparer les dossiers
 mkdir -p install
-echo "🧠 [SMKORTEX] Installation initiale — $DATE" > "$LOG"
+echo "🧠 [SMKORTEX] Installation initiale — $DATE" | tee "$LOG"
 
 echo ""
 echo "🔧 [1/4] Installation des dépendances système"
-bash install/tools_base_install.sh >> "$LOG" 2>&1
+bash install/tools_base_install.sh 2>&1 | tee -a "$LOG"
 
 echo ""
 echo "🧠 [2/4] Installation des modules IA (llamacpp & vigogne)"
-bash scripts/llamacpp_install.sh >> "$LOG" 2>&1
-bash scripts/vigogne_install.sh >> "$LOG" 2>&1
+bash scripts/llamacpp_install.sh 2>&1 | tee -a "$LOG"
+bash scripts/vigogne_install.sh 2>&1 | tee -a "$LOG"
 
 echo ""
 echo "📦 [3/4] Compilation du terminal SMKORTEX"
 mkdir -p build
 cd build
-cmake .. >> "../$LOG" 2>&1
-make >> "../$LOG" 2>&1
-chmod +x build/kortex_terminal
+cmake .. 2>&1 | tee -a "../$LOG"
+make 2>&1 | tee -a "../$LOG"
 cd ..
+
+# 🔐 Assure que le terminal est exécutable
+chmod +x build/kortex_terminal
 
 # 🧪 Vérification et lancement
 if [ -f "build/kortex_terminal" ]; then
