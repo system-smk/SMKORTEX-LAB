@@ -18,18 +18,17 @@ SMKORTEX est un cortex en évolution.
 Pour une **installation automatique**, lance simplement :
 
 ```bash
-bash premiere_install.sh
+bash all_install.sh
 ```
 
 Ce script :
 - Installe tous les outils système nécessaires (CMake, Boost, etc.)
 - Installe les modules IA 🧩 (`llamacpp`, `vigogne`)
-- Compile le terminal C++
-- Crée un lanceur simplifié nommé `kortexecute.sh`
+
 
 👉 Une fois l’installation terminée :
 ```bash
-./kortexecute.sh
+bash lancement_chat.sh
 ```
 
 ---
@@ -37,12 +36,10 @@ Ce script :
 ## 📁 Structure du projet
 
 ```
-smkortex/
-├── premiere_install.sh       # Script d’installation automatique
-├── kortexecute.sh            # Lanceur du terminal SMKORTEX
-├── CMakeLists.txt            # Configuration CMake
+smkortex-lab/
+├── all_install.sh       # Script d’installation automatique
+├── lancement_chat.sh            # Lanceur du terminal SMKORTEX
 ├── src/                      # Sources C++
-├── scripts/                  # Installation des modules IA
 ├── install/                  # Installation des outils système
 └── build/                    # Compilation et exécutable
 ```
