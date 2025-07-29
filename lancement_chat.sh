@@ -15,7 +15,7 @@ if ! [ -f "$MODEL_PATH" ]; then
 fi
 
 # 🚀 Lancement du chat
-echo "🤖 LLaMA lancé avec Vigogne ! Tape 'exit' pour quitter."
+echo "KORTEX lancé! Tape 'exit' pour quitter."
 
 while true; do
     read -p "💬 Toi : " input
