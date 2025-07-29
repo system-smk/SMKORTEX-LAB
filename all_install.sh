@@ -2,6 +2,7 @@
 
 mkdir -p build
 
+g++ src/kognition.cpp -o build/kognition
 g++ src/anime.cpp -o build/logo
 ./build/logo &
 echo "🧠 [SMKORTEX] Installation de base et compilation du module IA"
